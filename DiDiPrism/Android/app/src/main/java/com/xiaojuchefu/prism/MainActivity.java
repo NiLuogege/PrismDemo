@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < count; i++) {
             EventData eventData = mPlaybackEvents.get(i);
+            // 可以通过此方法获取事件信息，比如文字回放等，
             EventInfo eventInfo = PlaybackHelper.convertEventInfo(eventData);
             if (eventInfo == null) continue;
 

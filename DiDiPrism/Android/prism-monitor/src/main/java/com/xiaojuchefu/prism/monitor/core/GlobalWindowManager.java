@@ -29,6 +29,7 @@ public class GlobalWindowManager {
             return;
         }
         mInitialized = true;
+        //hook WindowManagerGlobal 下的 mViews 为 WindowObserver
         reflectProxyWindowManager(context);
     }
 
@@ -36,6 +37,11 @@ public class GlobalWindowManager {
         return mWindowObserver;
     }
 
+    /**
+     * 将 WindowManagerImpl - > mGlobal ->mViews 替换为 mWindowObserver，已达到 添加view和移除view能感知到的效果
+     *
+     * mWindowObserver 中存放是的 每个activity的 decoreVeiw
+     */
     private void reflectProxyWindowManager(Context context) {
         try {
             Object windowManager = context.getSystemService(Context.WINDOW_SERVICE);

@@ -27,7 +27,10 @@ public class PrismMonitor {
 
     public Application mApplication;
 
+    //是否已经初始化
     private boolean isInitialized;
+
+    //是否正在检测
     private boolean isMonitoring;
 
     private List<OnPrismMonitorListener> mListeners;
@@ -40,6 +43,7 @@ public class PrismMonitor {
     private PrismMonitor() {
     }
 
+    //DCL（双重检测） 形式的 单例
     public static PrismMonitor getInstance() {
         if (sPrismMonitor == null) {
             synchronized (PrismMonitor.class) {
@@ -67,12 +71,16 @@ public class PrismMonitor {
 
         Context context = application.getApplicationContext();
 
+        //获取 view配置文件
         ViewConfiguration vc = ViewConfiguration.get(context);
+        //获取touchSlop （系统 滑动距离的最小值，大于该值可以认为滑动）
         sTouchSlop = vc.getScaledTouchSlop();
 
+        //添加APP的生命周期观察者，来观察 APP是退到后台还是进入前台
         mAppLifecycleObserver = new AppLifecycleObserver();
         ProcessLifecycleOwner.get().getLifecycle().addObserver(mAppLifecycleObserver);
 
+        //hook WindowManagerGlobal 下的 mViews 为 WindowObserver
         GlobalWindowManager.getInstance().init(context);
 
         mActivityLifecycleCallbacks = new ActivityLifecycleCallbacks();
