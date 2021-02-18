@@ -100,7 +100,10 @@ public class PrismMonitor {
     public void start() {
         if (!isInitialized || isMonitoring) return;
 
+        //添加activity生命周期监控
         mApplication.registerActivityLifecycleCallbacks(mActivityLifecycleCallbacks);
+
+        //添加window 添加移除监控
         WindowObserver windowObserver = GlobalWindowManager.getInstance().getWindowObserver();
         windowObserver.addWindowObserverListener(mWindowObserverListener);
 
@@ -112,6 +115,7 @@ public class PrismMonitor {
                 window = (Window) view.getTag(R.id.prism_window);
             }
             if (window != null && !(window.getCallback() instanceof WindowCallbacks)) {
+                //给window 添加 PrismMonitorWindowCallbacks
                 setWindowCallback(window);
             }
         }

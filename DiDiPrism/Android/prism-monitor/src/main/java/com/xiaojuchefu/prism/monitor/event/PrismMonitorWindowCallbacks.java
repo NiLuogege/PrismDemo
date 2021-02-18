@@ -14,6 +14,11 @@ import com.xiaojuchefu.prism.monitor.touch.TouchRecord;
 import com.xiaojuchefu.prism.monitor.touch.TouchRecordManager;
 import com.xiaojuchefu.prism.monitor.touch.TouchTracker;
 
+/**
+ * 真正处理 触摸时间 及 window 添加 移除的地方
+ *
+ * 使用  Window.Callback 确实使 这些事件 可以集中处理
+ */
 public class PrismMonitorWindowCallbacks extends WindowCallbacks {
 
     PrismMonitor mPrismMonitor;
@@ -28,14 +33,20 @@ public class PrismMonitorWindowCallbacks extends WindowCallbacks {
     @Override
     public boolean touchEvent(MotionEvent event) {
         if (mPrismMonitor.isMonitoring()) {
+
+            //记录及解析 MotionEvent 为 TouchRecord
             TouchRecordManager.getInstance().touchEvent(event);
+
             int action = event.getActionMasked();
             if (action == MotionEvent.ACTION_UP) {
+                //获取转换好的  TouchRecord
                 TouchRecord touchRecord = TouchRecordManager.getInstance().getTouchRecord();
                 if (touchRecord != null && touchRecord.isClick) {
                     int[] location = new int[]{(int) touchRecord.mDownX, (int) touchRecord.mDownY};
+                    //通过坐标找到 具体 view
                     View targetView = TouchTracker.findTargetView((ViewGroup) window.getDecorView(), touchRecord.isClick ? location : null);
                     if (targetView != null) {
+                        //创建一个 EventData 并让 PrismMonitor 记录
                         EventData eventData = TouchEventHelper.createEventData(window, targetView, touchRecord);
                         if (eventData != null) {
                             mPrismMonitor.post(eventData);

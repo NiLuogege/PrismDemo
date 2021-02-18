@@ -2,6 +2,9 @@ package com.xiaojuchefu.prism.monitor.touch;
 
 import android.view.MotionEvent;
 
+/**
+ * 触摸事件记录者，其实就是对 MotionEvent 的解析及记录，会将 MotionEvent 转为 TouchRecord
+ */
 public class TouchRecordManager {
 
     private static TouchRecordManager sTouchRecordManager;

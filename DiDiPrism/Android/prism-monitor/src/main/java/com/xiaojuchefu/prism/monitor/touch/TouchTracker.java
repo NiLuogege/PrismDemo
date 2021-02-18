@@ -16,6 +16,7 @@ public class TouchTracker {
     private static Field sTouchTargetField;
     private static Field sTouchTargetChildField;
 
+    //通过相对于父亲的坐标找到 具体 view
     public static View findTargetView(ViewGroup rootView, int[] location) {
         View nextTarget, target = null;
         if (ensureTargetField() && rootView != null) {
