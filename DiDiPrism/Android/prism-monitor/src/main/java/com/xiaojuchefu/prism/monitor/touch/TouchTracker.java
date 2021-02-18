@@ -1,6 +1,7 @@
 package com.xiaojuchefu.prism.monitor.touch;
 
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -20,6 +21,8 @@ public class TouchTracker {
     public static View findTargetView(ViewGroup rootView, int[] location) {
         View nextTarget, target = null;
         if (ensureTargetField() && rootView != null) {
+
+            //找到被点击的 view
             nextTarget = getTargetView(rootView);
             do {
                 target = nextTarget;
@@ -29,6 +32,9 @@ public class TouchTracker {
                 }
             } while (nextTarget != null);
         }
+
+        Log.e("TouchTracker ","target= "+target);
+
         return location != null ? filterView(target, location) : target;
     }
 
@@ -55,6 +61,7 @@ public class TouchTracker {
         return sTouchTargetField != null && sTouchTargetChildField != null;
     }
 
+    //反射获取 点击的目标 view
     private static View getTargetView(ViewGroup parent) {
         try {
             Object target = sTouchTargetField.get(parent);
