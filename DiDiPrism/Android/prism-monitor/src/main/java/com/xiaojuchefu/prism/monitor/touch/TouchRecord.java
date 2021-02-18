@@ -41,4 +41,17 @@ public class TouchRecord {
         public float mMoveY;
     }
 
+    @Override
+    public String toString() {
+        return "TouchRecord{" +
+                "mPointerId=" + mPointerId +
+                ", mDownTime=" + mDownTime +
+                ", mDownX=" + mDownX +
+                ", mDownY=" + mDownY +
+                ", mUpTime=" + mUpTime +
+                ", mUpX=" + mUpX +
+                ", mUpY=" + mUpY +
+                ", isClick=" + isClick +
+                '}';
+    }
 }
