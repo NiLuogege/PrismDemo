@@ -52,6 +52,9 @@ public class PrismMonitorWindowCallbacks extends WindowCallbacks {
                     if (targetView != null) {
                         //创建一个 EventData 并让 PrismMonitor 记录
                         EventData eventData = TouchEventHelper.createEventData(window, targetView, touchRecord);
+
+                        Log.e("PMW eventData", eventData.eventId);
+
                         if (eventData != null) {
                             mPrismMonitor.post(eventData);
                         }

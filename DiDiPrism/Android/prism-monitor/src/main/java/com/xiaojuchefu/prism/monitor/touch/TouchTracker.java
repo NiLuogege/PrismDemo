@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.reflect.Field;
 
+/**
+ * 主要功能 就是找到 点击的view
+ */
 public class TouchTracker {
 
     private static Field sTouchTargetField;

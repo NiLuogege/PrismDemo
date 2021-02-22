@@ -32,25 +32,53 @@ public class TouchEventHelper {
     private static int mWindowWidth = -1;
     private static int mWindowHeight = -1;
 
+    /**
+     * 创建一个 EventData
+     * <p>
+     * 以点击demo中 horizontalScrollView 中的 Button1 为例，
+     * 其eventId为 w_&_com.xiaojuchefu.prism.TestActivity_&_1_^_vp_&_0/0/5/0/content[01]/decor_content_parent/_^_vr_&_Button 1 为例 分隔
+     */
     public static EventData createEventData(Window window, View touchView, TouchRecord touchRecord) {
         if (touchView == null) {
             return null;
         }
         StringBuilder eventId = new StringBuilder();
+
+        //w_&_com.xiaojuchefu.prism.TestActivity_&_1
         getWindowInfo(window, eventId);
+
+
         ViewPath viewPath = getViewPathInfo(touchView, touchRecord, eventId);
         if (viewPath.viewContainer != null) { // containerView
+
             ViewContainer viewContainer = viewPath.viewContainer;
-            eventId.append(PrismConstants.Symbol.DIVIDER).append(viewContainer.symbol).append(PrismConstants.Symbol.DIVIDER_INNER).append(viewContainer.url);
+
+            eventId.append(PrismConstants.Symbol.DIVIDER)
+                    .append(viewContainer.symbol)
+                    .append(PrismConstants.Symbol.DIVIDER_INNER)
+                    .append(viewContainer.url);
         } else if (!TextUtils.isEmpty(viewPath.webUrl)) { // webview
-            eventId.append(PrismConstants.Symbol.DIVIDER).append(PrismConstants.Symbol.WEB_URL).append(PrismConstants.Symbol.DIVIDER_INNER).append(viewPath.webUrl);
+
+            eventId.append(PrismConstants.Symbol.DIVIDER)
+                    .append(PrismConstants.Symbol.WEB_URL)
+                    .append(PrismConstants.Symbol.DIVIDER_INNER)
+                    .append(viewPath.webUrl);
+
         } else { // native
             getViewId(touchView, eventId);
         }
 
-        eventId.append(PrismConstants.Symbol.DIVIDER).append(PrismConstants.Symbol.VIEW_PATH).append(PrismConstants.Symbol.DIVIDER_INNER).append(viewPath.path);
+        //_^_vp_&_0/0/5/0/content[01]/decor_content_parent/
+        eventId.append(PrismConstants.Symbol.DIVIDER)
+                .append(PrismConstants.Symbol.VIEW_PATH)
+                .append(PrismConstants.Symbol.DIVIDER_INNER)
+                .append(viewPath.path);
+
         if (!TextUtils.isEmpty(viewPath.listInfo)) { // in list container view
-            eventId.append(PrismConstants.Symbol.DIVIDER).append(PrismConstants.Symbol.VIEW_LIST).append(PrismConstants.Symbol.DIVIDER_INNER).append(viewPath.listInfo);
+            eventId.append(PrismConstants.Symbol.DIVIDER)
+                    .append(PrismConstants.Symbol.VIEW_LIST)
+                    .append(PrismConstants.Symbol.DIVIDER_INNER)
+                    .append(viewPath.listInfo);
         }
 
         // view content
@@ -81,7 +109,10 @@ public class TouchEventHelper {
     private static void getViewId(View touchView, StringBuilder eventId) {
         String viewIdName = getResourceName(touchView.getContext(), touchView.getId());
         if (viewIdName != null) {
-            eventId.append(PrismConstants.Symbol.DIVIDER).append(PrismConstants.Symbol.VIEW_ID).append(PrismConstants.Symbol.DIVIDER_INNER).append(viewIdName);
+            eventId.append(PrismConstants.Symbol.DIVIDER)
+                    .append(PrismConstants.Symbol.VIEW_ID)
+                    .append(PrismConstants.Symbol.DIVIDER_INNER)
+                    .append(viewIdName);
         }
     }
 
@@ -105,6 +136,9 @@ public class TouchEventHelper {
         }
     }
 
+    /**
+     * 获取view路径 优先级是 resourceName>isLast>index
+     */
     private static ViewPath getViewPathInfo(View touchView, TouchRecord touchRecord, StringBuilder eventId) {
         ViewPath viewPath = new ViewPath();
         if (touchView instanceof WebView) {
@@ -120,10 +154,13 @@ public class TouchEventHelper {
         boolean hasLastViewId = false;
         String listInfo = null;
         StringBuilder viewPathBuilder = new StringBuilder();
+
+        //递归获取 view的路径
         do {
             ViewParent viewParent = touchView.getParent();
             if (viewParent instanceof ViewGroup) {
                 ViewGroup viewGroup = (ViewGroup) viewParent;
+                //找到是第几个孩子
                 int index = viewGroup.indexOfChild(touchView);
                 boolean isList = false;
                 String positionInfo = null;
@@ -149,7 +186,7 @@ public class TouchEventHelper {
                     } else {
                         listInfo += "," + positionInfo;
                     }
-                } else if(touchRecord.isClick && viewParent instanceof ViewPager) {
+                } else if (touchRecord.isClick && viewParent instanceof ViewPager) {
                     viewPath.inScrollableContainer = true;
                     ViewPager viewPager = (ViewPager) viewParent;
                     positionInfo = "v:" + viewPager.getCurrentItem() + "," + index;
@@ -163,6 +200,7 @@ public class TouchEventHelper {
                     viewPath.inScrollableContainer = true;
                 }
 
+                //通过资源id 获取资源名称
                 String resourceName = getResourceName(touchView.getContext(), touchView.getId());
                 if (resourceName != null) {
                     viewPathBuilder.append(resourceName).append("/");
