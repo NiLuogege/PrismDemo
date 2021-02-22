@@ -14,10 +14,22 @@ public class PrismConstants {
 
     }
 
+    /**
+     * 总结：
+     *
+     * android操作行为标识 = window信息(w) + 响应链信息(vp) + 列表信息(vl) + 区位信息(vq) + 参考信息(vr) + 功能信息(vf)
+     *
+     *
+     * 操作行为指令格式说明:
+     * https://github.com/didi/DiDiPrism/blob/master/Doc/%E6%93%8D%E4%BD%9C%E8%A1%8C%E4%B8%BA%E6%8C%87%E4%BB%A4/%E6%93%8D%E4%BD%9C%E8%A1%8C%E4%B8%BA%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E.md
+     *
+     * 参考：
+     * https://github.com/didi/DiDiPrism/blob/master/Android/README.md
+     */
     public class Symbol {
 
-        public static final String DIVIDER = "_^_";
-        public static final String DIVIDER_INNER = "_&_";
+        public static final String DIVIDER = "_^_"; //连接符 例如 window信息(w) _^_ 响应链信息(vp)
+        public static final String DIVIDER_INNER = "_&_"; //相当于等于号 例如 w_&_com.xiaojuchefu.prism.TestActivity_&_1
 
         public static final String WINDOW = "w";
 

@@ -44,10 +44,11 @@ public class TouchEventHelper {
         }
         StringBuilder eventId = new StringBuilder();
 
-        //w_&_com.xiaojuchefu.prism.TestActivity_&_1
+        //w_&_{窗口名称}_&_{窗口类型} 例如  w_&_com.xiaojuchefu.prism.TestActivity_&_1
         getWindowInfo(window, eventId);
 
 
+        //获取 被点击view在ViewTree上的路径信息, 注意：我们不记录每个view层级上的View Class名称或者index，只会记录关键层级
         ViewPath viewPath = getViewPathInfo(touchView, touchRecord, eventId);
         if (viewPath.viewContainer != null) { // containerView
 
@@ -327,13 +328,21 @@ public class TouchEventHelper {
         float y = touchRecord.mDownY;
         eventId.append(PrismConstants.Symbol.DIVIDER);
         if (x > centreX && y <= centreY) {
-            eventId.append(PrismConstants.Symbol.VIEW_QUADRANT).append(PrismConstants.Symbol.DIVIDER_INNER).append("1");
+            eventId.append(PrismConstants.Symbol.VIEW_QUADRANT)
+                    .append(PrismConstants.Symbol.DIVIDER_INNER)
+                    .append("1");
         } else if (x >= centreX && y > centreY) {
-            eventId.append(PrismConstants.Symbol.VIEW_QUADRANT).append(PrismConstants.Symbol.DIVIDER_INNER).append("2");
+            eventId.append(PrismConstants.Symbol.VIEW_QUADRANT)
+                    .append(PrismConstants.Symbol.DIVIDER_INNER)
+                    .append("2");
         } else if (x < centreX && y >= centreY) {
-            eventId.append(PrismConstants.Symbol.VIEW_QUADRANT).append(PrismConstants.Symbol.DIVIDER_INNER).append("3");
+            eventId.append(PrismConstants.Symbol.VIEW_QUADRANT)
+                    .append(PrismConstants.Symbol.DIVIDER_INNER)
+                    .append("3");
         } else if (x <= centreX && y < centreY) {
-            eventId.append(PrismConstants.Symbol.VIEW_QUADRANT).append(PrismConstants.Symbol.DIVIDER_INNER).append("4");
+            eventId.append(PrismConstants.Symbol.VIEW_QUADRANT)
+                    .append(PrismConstants.Symbol.DIVIDER_INNER)
+                    .append("4");
         }
     }
 
