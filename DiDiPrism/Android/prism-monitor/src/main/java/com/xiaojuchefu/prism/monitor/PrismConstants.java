@@ -17,7 +17,7 @@ public class PrismConstants {
     /**
      * 总结：
      *
-     * android操作行为标识 = window信息(w) + 响应链信息(vp) + 列表信息(vl) + 区位信息(vq) + 参考信息(vr) + 功能信息(vf)
+     * android操作行为标识 = window信息(w) + viewId信息(vi)+ 响应链信息(vp) + 列表信息(vl) + 区位信息(vq) + 参考信息(vr) + 功能信息(vf 0.0.4版本是没有实现)
      *
      *
      * 操作行为指令格式说明:
