@@ -22,7 +22,10 @@ public class EventData {
     }
 
     public String getUnionId() {
-        return "e" + PrismConstants.Symbol.DIVIDER_INNER + eventType + (eventId != null ? (PrismConstants.Symbol.DIVIDER + eventId) : "");
+        return "e" +
+                PrismConstants.Symbol.DIVIDER_INNER +
+                eventType +
+                (eventId != null ? (PrismConstants.Symbol.DIVIDER + eventId) : "");
     }
 
 }

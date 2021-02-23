@@ -371,10 +371,14 @@ public class PlaybackHelper {
         return null;
     }
 
+    /**
+     * 将 eventData 转为 EventInfo
+     */
     public static EventInfo convertEventInfo(EventData eventData) {
         EventInfo eventInfo = new EventInfo();
         String unionId = eventData.getUnionId();
         eventInfo.originData = unionId;
+        //通过_^_ 这个自定义分隔符 ，分隔出 各个部分 ，并将 类型和信息 放入 keysMap 中
         String[] result = unionId.split("_\\^_");
         HashMap<String, String> keysMap = new HashMap<>(result.length);
         for (int i = 0; i < result.length; i++) {
@@ -393,6 +397,7 @@ public class PlaybackHelper {
         if (keysMap.containsKey(PrismConstants.Symbol.WINDOW)) {
             String windowData = keysMap.get(PrismConstants.Symbol.WINDOW);
             String[] windowInfo = windowData.split(PrismConstants.Symbol.DIVIDER_INNER);
+            //获取 windowType
             if (windowInfo.length > 1) {
                 eventInfo.windowType = Integer.parseInt(windowInfo[1]);
             } else {
@@ -406,6 +411,7 @@ public class PlaybackHelper {
             return null;
         }
 
+        //解析时间类型 事件类型定义在 PrismConstants.Event 中
         eventInfo.eventData = keysMap;
         eventInfo.eventType = Integer.parseInt(keysMap.get("e"));
         switch (eventInfo.eventType) {
@@ -594,6 +600,9 @@ public class PlaybackHelper {
         return view;
     }
 
+    /**
+     * 通过 eventInfo 获取 被点击View的具体信息
+     */
     public static String getClickInfo(EventInfo eventInfo) {
         String contentData = eventInfo.eventData.get(PrismConstants.Symbol.VIEW_REFERENCE);
         if (TextUtils.isEmpty(contentData)) {

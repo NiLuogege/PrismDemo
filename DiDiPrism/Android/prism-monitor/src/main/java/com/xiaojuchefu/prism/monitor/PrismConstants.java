@@ -34,11 +34,11 @@ public class PrismConstants {
         public static final String WINDOW = "w";
 
         public static final String VIEW_ID = "vi";
-        public static final String VIEW_REFERENCE = "vr";
+        public static final String VIEW_REFERENCE = "vr"; //参考信息 : view RepresentativeContent [l_image] 代表本地图片 [r_image] 代表网络图片
 
-        public static final String VIEW_QUADRANT = "vq";
+        public static final String VIEW_QUADRANT = "vq"; //区位信息
 
-        public static final String VIEW_LIST = "vl";
+        public static final String VIEW_LIST = "vl"; //列表信息
 
         public static final String VIEW_PATH = "vp";
 
