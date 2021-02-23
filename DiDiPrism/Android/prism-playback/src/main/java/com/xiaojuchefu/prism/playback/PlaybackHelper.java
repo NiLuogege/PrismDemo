@@ -464,6 +464,9 @@ public class PlaybackHelper {
         }
     }
 
+    /**
+     * 判断是否需要滚动
+     */
     public static boolean needScroll(View container, int realItemPosition) {
         if (container instanceof RecyclerView) {
             RecyclerView recyclerView = (RecyclerView) container;

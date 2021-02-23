@@ -127,6 +127,7 @@ public class PrismPlayback {
                 mHandler.sendEmptyMessage(1);
             } else {
                 PrismWindow prismWindow = PrismWindowManager.getInstance().getTopWindow();
+                //找到并移动到目标view ，
                 View targetView = PlaybackHelper.findTargetView(prismWindow, eventInfo);
                 if (targetView == null) {
                     if (retryTimes == 3) {
@@ -176,6 +177,9 @@ public class PrismPlayback {
         }
     }
 
+    /**
+     * 高亮目标view
+     */
     private void highLightTriggerView(final View view, final OnAnimatorListener listener) {
         final Drawable drawable = new Drawable() {
             @Override

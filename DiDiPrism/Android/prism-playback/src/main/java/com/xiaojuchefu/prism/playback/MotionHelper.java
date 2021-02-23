@@ -13,6 +13,9 @@ public class MotionHelper {
 
     private final static ExecutorService DEFAULT_EXECUTOR_SERVICE = Executors.newCachedThreadPool();
 
+    /**
+     * 模拟一个点击事件
+     */
     public static void simulateClick(View view) {
         int[] outLocation = new int[2];
         view.getLocationOnScreen(outLocation);
