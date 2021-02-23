@@ -75,19 +75,24 @@ public class PrismPlayback {
 
     public void init(Application application) {
         mContext = application;
-        AppLifecycler.getInstance().init(application);
-        GlobalWindowManager.getInstance().getWindowObserver().addWindowObserverListener(new WindowObserver.WindowObserverListener() {
-            @Override
-            public void add(Window window) {
-                final PrismWindow prismWindow = new PrismWindow(window);
-                PrismWindowManager.getInstance().addPrismWindow(prismWindow);
-            }
 
-            @Override
-            public void remove(Window window) {
-                PrismWindowManager.getInstance().removePrismWindow(window);
-            }
-        });
+        AppLifecycler.getInstance().init(application);
+
+        //添加 window 添加和移除 监听
+        GlobalWindowManager.getInstance()
+                .getWindowObserver()
+                .addWindowObserverListener(new WindowObserver.WindowObserverListener() {
+                    @Override
+                    public void add(Window window) {
+                        final PrismWindow prismWindow = new PrismWindow(window);
+                        PrismWindowManager.getInstance().addPrismWindow(prismWindow);
+                    }
+
+                    @Override
+                    public void remove(Window window) {
+                        PrismWindowManager.getInstance().removePrismWindow(window);
+                    }
+                });
     }
 
     /**
@@ -131,14 +136,14 @@ public class PrismPlayback {
                 //找到并移动到目标view ，
                 View targetView = PlaybackHelper.findTargetView(prismWindow, eventInfo);
 
-                Log.e("next","findTargetView= "+targetView);
+                Log.e("next", "findTargetView= " + targetView);
 
                 if (targetView == null) {
                     if (retryTimes == 3) {
                         Toast.makeText(mContext, "回放失败", Toast.LENGTH_SHORT).show();
                     } else {
 
-                        Log.e("next","重试");
+                        Log.e("next", "重试");
 
                         Toast.makeText(mContext, "正在重试(" + (retryTimes + 1) + ")", Toast.LENGTH_SHORT).show();
                         Message message = mHandler.obtainMessage(2);
@@ -150,7 +155,7 @@ public class PrismPlayback {
                 if (!targetView.isClickable()) {
                     targetView = PlaybackHelper.getClickableView(targetView);
 
-                    Log.e("next","getClickableView= "+targetView);
+                    Log.e("next", "getClickableView= " + targetView);
                 }
                 final View tempView = targetView;
                 mHandler.postDelayed(new Runnable() {

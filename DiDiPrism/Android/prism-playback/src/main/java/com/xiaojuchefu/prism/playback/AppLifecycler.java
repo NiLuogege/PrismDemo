@@ -44,8 +44,11 @@ public class AppLifecycler {
             return;
         }
         mInitialized = true;
+
+        //注册 ActivityLifecycle 监听
         application.unregisterActivityLifecycleCallbacks(mActivityLifecycleListener);
         application.registerActivityLifecycleCallbacks(mActivityLifecycleListener);
+        //注册 LifecycleObserver 监听
         ProcessLifecycleOwner.get().getLifecycle().addObserver(mAppLifecycleListener);
     }
 
