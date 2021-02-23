@@ -38,7 +38,7 @@ public class PrismConstants {
 
         public static final String VIEW_QUADRANT = "vq"; //区位信息
 
-        public static final String VIEW_LIST = "vl"; //列表信息 ， 描述可复用容器item的信息
+        public static final String VIEW_LIST = "vl"; //列表信息 ，vl_&_l:4,2 标识该列表是 父view的 第三个孩子，别点击的item的position是4
 
         public static final String VIEW_PATH = "vp"; // view 的 路径，路径不一定是全路径 ，只包含主要节点 ，基本准则就是 只要通过 vp 能找到对应 view就行
 

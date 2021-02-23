@@ -139,9 +139,11 @@ public class PlaybackHelper {
 
     private static View findTargetViewById(View view, String viewIdName, String viewPath, String viewReference) {
         Context context = view.getContext();
+        //通过 viewIdName 找到 viewId
         int viewId = getResourceId(context, viewIdName, "id");
         if (viewId != 0) {
             ArrayMap<Integer, List<View>> allView = new ArrayMap<>();
+            //找到 view 并放到 allView 中 （因为在 listView 中 子view id 是一样的 所以 会有多个）
             findAllViewById(view, viewId, 0, allView);
             if (allView.isEmpty()) {
                 return null;
@@ -153,6 +155,7 @@ public class PlaybackHelper {
                 }
             }
             List<View> possibleTargetViews = allView.get(minDep);
+            //通过 viewReference 筛选出最终的 View
             return filterPossibleTargetView(possibleTargetViews, viewReference, viewPath, minDep);
         } else {
             return null;
@@ -219,8 +222,8 @@ public class PlaybackHelper {
     private static ViewGroup findTargetViewContainer(ViewGroup viewGroup, String viewPath, String viewList) {
         String[] viewPaths = viewPath.split("/");
         String[] viewLists = viewList.split(",");
-        int listIndex = viewLists.length / 2;
-        int pathIndex = viewPaths.length - 1;
+        int listIndex = viewLists.length / 2; // 恒定为1
+        int pathIndex = viewPaths.length - 1; // 记录的最顶级View
         ViewGroup container = viewGroup;
         while (pathIndex >= 0) {
             String node = viewPaths[pathIndex];
@@ -232,7 +235,7 @@ public class PlaybackHelper {
                     node = viewLists[listIndex * 2 + 1];
                 }
             }
-            try {
+            try {//先尝试转为 int ，如果转成功说明记录的是 位置 ，转不成功说明记录的是 id name
                 int position = Integer.parseInt(node);
                 if (position < container.getChildCount()) {
                     View childView = container.getChildAt(position);
@@ -245,6 +248,7 @@ public class PlaybackHelper {
                     return findPossibleContainerView(viewGroup);
                 }
             } catch (Exception e) {
+                //通过ID 查找view
                 View view = findTargetViewById(container, node, null, null);
                 if (view == null) {
                     return findPossibleContainerView(viewGroup);
@@ -344,6 +348,9 @@ public class PlaybackHelper {
         return null;
     }
 
+    /**
+     * 通过 viewReference 筛选出最终的 View
+     */
     private static View filterPossibleTargetView(List<View> possibleTargetViews, String viewReference, String viewPath, int minDep) {
         if (possibleTargetViews != null) {
             if (possibleTargetViews.size() == 1) {
@@ -446,6 +453,9 @@ public class PlaybackHelper {
         return eventInfo;
     }
 
+    /**
+     * 通过 viewIdName 找到 view的 id
+     */
     public static int getResourceId(Context context, String resourceName, String resourceType) {
         if (resourceName.endsWith("[01]")) {
             return context.getResources().getIdentifier(resourceName.replace("[01]", ""), resourceType, "android");

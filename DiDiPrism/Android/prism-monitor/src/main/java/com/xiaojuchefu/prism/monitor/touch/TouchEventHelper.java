@@ -171,7 +171,9 @@ public class TouchEventHelper {
                     viewPath.inScrollableContainer = true;
                     AbsListView listView = (AbsListView) viewParent;
                     int[] location = new int[2];
+                    //记录listView 在屏幕中的位置信息
                     listView.getLocationOnScreen(location);
+                    //被点击item 的位置信息 （pointToPosition api 是通过 触摸点 找到对应的 item position）
                     positionInfo = "l:" + listView.pointToPosition((int) touchRecord.mDownX - location[0], (int) touchRecord.mDownY - location[1]) + "," + index;
                     isList = true;
                     if (listInfo == null) {
