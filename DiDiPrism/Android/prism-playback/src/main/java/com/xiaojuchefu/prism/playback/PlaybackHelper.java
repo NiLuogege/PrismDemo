@@ -316,15 +316,22 @@ public class PlaybackHelper {
             }
         } else if (viewGroup instanceof ListView) {
             ListView listView = (ListView) viewGroup;
-            for (int i = 0; i < listView.getChildCount(); i++) {
-                View itemView = listView.getChildAt(i);
-                Rect itemViewRect = new Rect();
-                itemView.getLocalVisibleRect(itemViewRect);
-                int itemViewPosition = listView.pointToPosition(itemViewRect.centerX(), itemViewRect.centerY());
-                if (position == itemViewPosition) {
-                    return itemView;
-                }
-            }
+
+
+            //这里是要找到 position 对应的 itemView 对象，源码中（如下注释部分）是有问题的，需要改成 下面这行代码就行了
+            return listView.getChildAt(position - listView.getFirstVisiblePosition());
+
+//            for (int i = 0; i < listView.getChildCount(); i++) {
+//                View itemView = listView.getChildAt(i);
+//                Rect itemViewRect = new Rect();
+//                itemView.getLocalVisibleRect(itemViewRect);
+//                int itemViewPosition = listView.pointToPosition(itemViewRect.centerX(), itemViewRect.centerY());
+//                if (position == itemViewPosition) {
+//                    return itemView;
+//                }
+//            }
+
+
         } else if (viewGroup instanceof ViewPager) {
             ViewPager viewPager = (ViewPager) viewGroup;
             viewPager.setCurrentItem(position);
