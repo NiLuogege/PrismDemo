@@ -14,6 +14,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
@@ -129,10 +130,16 @@ public class PrismPlayback {
                 PrismWindow prismWindow = PrismWindowManager.getInstance().getTopWindow();
                 //找到并移动到目标view ，
                 View targetView = PlaybackHelper.findTargetView(prismWindow, eventInfo);
+
+                Log.e("next","findTargetView= "+targetView);
+
                 if (targetView == null) {
                     if (retryTimes == 3) {
                         Toast.makeText(mContext, "回放失败", Toast.LENGTH_SHORT).show();
                     } else {
+
+                        Log.e("next","重试");
+
                         Toast.makeText(mContext, "正在重试(" + (retryTimes + 1) + ")", Toast.LENGTH_SHORT).show();
                         Message message = mHandler.obtainMessage(2);
                         message.arg1 = retryTimes + 1;
@@ -142,6 +149,8 @@ public class PrismPlayback {
                 }
                 if (!targetView.isClickable()) {
                     targetView = PlaybackHelper.getClickableView(targetView);
+
+                    Log.e("next","getClickableView= "+targetView);
                 }
                 final View tempView = targetView;
                 mHandler.postDelayed(new Runnable() {
@@ -151,7 +160,7 @@ public class PrismPlayback {
                             @Override
                             public void onAnimationEnd() {
                                 MotionHelper.simulateClick(tempView);
-                                mHandler.sendEmptyMessage(1);
+                                mHandler.sendEmptyMessage(1);//继续下一个
                             }
                         });
                     }

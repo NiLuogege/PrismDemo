@@ -3,6 +3,7 @@ package com.xiaojuchefu.prism.playback;
 import android.content.Context;
 import android.graphics.Rect;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -59,6 +60,9 @@ public class PlaybackHelper {
                         String listData = viewList.split(",")[0];
                         String relativePath = viewPath.substring(0, viewPath.indexOf("*"));
                         int realItemPosition = Integer.parseInt(listData.split(":")[1]);
+
+                        Log.e("findTargetView", "realItemPosition= " + realItemPosition);
+
                         // 是否需要滚动
                         if (needScroll(container, realItemPosition)) {
                             smoothScrollToPosition(container, realItemPosition);
@@ -69,6 +73,14 @@ public class PlaybackHelper {
                                 View itemView = findItemViewByPosition(container, realItemPosition);
                                 if (itemView != null) {
                                     targetView = findTargetViewById(itemView, viewId, relativePath, viewReference);
+
+
+                                    Log.e("findTargetView", "findTargetViewById targetView= " + targetView);
+                                    if (targetView instanceof TextView) {
+                                        Log.e("findTargetView", "targetView text= " + ((TextView) targetView).getText());
+                                    }
+
+
                                     if (targetView != null) {
                                         smoothScrollToVisible(container, targetView);
                                         return targetView;
@@ -78,6 +90,7 @@ public class PlaybackHelper {
                                 for (int i = 0; i < container.getChildCount(); i++) {
                                     itemView = container.getChildAt(i);
                                     targetView = findTargetViewById(itemView, viewId, relativePath, viewReference);
+                                    Log.e("findTargetView", "findTargetViewById targetView= " + targetView);
                                     if (targetView != null) {
                                         smoothScrollToVisible(container, targetView);
                                         return targetView;
@@ -89,6 +102,7 @@ public class PlaybackHelper {
 
                             // 通过相对path查找
                             targetView = findTargetViewByPath(container, relativePath);
+                            Log.e("findTargetView", "findTargetViewByPath targetView= " + targetView);
                             if (targetView != null) {
                                 smoothScrollToVisible(container, targetView);
                                 return targetView;
@@ -103,18 +117,23 @@ public class PlaybackHelper {
 
                 if (viewId != null) { // 存在viewId
                     targetView = findTargetViewById(prismWindow.getDecorView(), viewId, viewPath, viewReference);
+                    Log.e("findTargetView", "have viewId targetView= " + targetView);
                     if (targetView != null) {
                         return needScrollOrNot(targetView);
                     }
+
                 }
 
                 targetView = findTargetViewByPath(prismWindow.getDecorView(), viewPath);
+                Log.e("findTargetView", "findTargetViewByPath targetView= " + targetView);
                 if (targetView != null) {
                     return needScrollOrNot(targetView);
                 }
 
+
                 if (!TextUtils.isEmpty(viewReference)) {
                     targetView = findTargetViewByReference(prismWindow.getDecorView(), viewReference);
+                    Log.e("findTargetView", "findTargetViewByReference targetView= " + targetView);
                     if (targetView != null) {
                         return needScrollOrNot(targetView);
                     }
@@ -123,6 +142,8 @@ public class PlaybackHelper {
             }
 
         }
+
+        Log.e("findTargetView", "targetView= " + targetView);
         return targetView;
     }
 
