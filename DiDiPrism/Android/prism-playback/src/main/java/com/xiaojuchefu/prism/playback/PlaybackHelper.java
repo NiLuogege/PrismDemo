@@ -26,6 +26,9 @@ import java.util.List;
 
 public class PlaybackHelper {
 
+    /**
+     * 验证window 和 windowData 描述是否 吻合
+     */
     public static boolean validateWindow(PrismWindow prismWindow, String windowData) {
         WindowManager.LayoutParams layoutParams = prismWindow.getWindow().getAttributes();
         String title = layoutParams.getTitle().toString().trim();
@@ -36,6 +39,7 @@ public class PlaybackHelper {
         return windowInfo[0].equals(windowTitle) && Integer.parseInt(windowInfo[1]) == windowType;
     }
 
+    //查找window中的目标view
     public static View findTargetView(PrismWindow prismWindow, EventInfo eventInfo) {
         HashMap<String, String> eventData = eventInfo.eventData;
         View targetView = null;
@@ -45,9 +49,11 @@ public class PlaybackHelper {
         String viewList = eventData.get(PrismConstants.Symbol.VIEW_LIST);
         String viewReference = eventData.get(PrismConstants.Symbol.VIEW_REFERENCE);
 
+        //验证window 和 windowData 描述是否 吻合
         if (validateWindow(prismWindow, windowData)) {
             if (viewPath != null) {
                 if (viewList != null) {
+                    //找到 目标view的 父级view
                     ViewGroup container = findTargetViewContainer(prismWindow.getDecorView(), viewPath, viewList);
                     if (container != null) {
                         String listData = viewList.split(",")[0];
@@ -297,7 +303,7 @@ public class PlaybackHelper {
         } else if (viewGroup instanceof ViewPager) {
             ViewPager viewPager = (ViewPager) viewGroup;
             viewPager.setCurrentItem(position);
-            if(position < viewPager.getChildCount() / 2) {
+            if (position < viewPager.getChildCount() / 2) {
                 return viewPager.getChildAt(position);
             } else {
                 return viewPager.getChildAt(viewPager.getChildCount() / 2);

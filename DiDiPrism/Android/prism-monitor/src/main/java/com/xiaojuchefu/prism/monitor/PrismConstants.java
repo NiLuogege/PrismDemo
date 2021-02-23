@@ -33,14 +33,14 @@ public class PrismConstants {
 
         public static final String WINDOW = "w";
 
-        public static final String VIEW_ID = "vi";
+        public static final String VIEW_ID = "vi"; // view id
         public static final String VIEW_REFERENCE = "vr"; //参考信息 : view RepresentativeContent [l_image] 代表本地图片 [r_image] 代表网络图片
 
         public static final String VIEW_QUADRANT = "vq"; //区位信息
 
-        public static final String VIEW_LIST = "vl"; //列表信息
+        public static final String VIEW_LIST = "vl"; //列表信息 ， 描述可复用容器item的信息
 
-        public static final String VIEW_PATH = "vp";
+        public static final String VIEW_PATH = "vp"; // view 的 路径，路径不一定是全路径 ，只包含主要节点 ，基本准则就是 只要通过 vp 能找到对应 view就行
 
         public static final String WEB_URL = "wu";
 

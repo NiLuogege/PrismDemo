@@ -89,10 +89,14 @@ public class PrismPlayback {
         });
     }
 
+    /**
+     * 操作行为回放
+     */
     public void playback(List<EventData> eventDataList) {
         List<EventInfo> eventInfoList = new ArrayList<>();
         for (int i = 0; i < eventDataList.size(); i++) {
             EventData eventData = eventDataList.get(i);
+            //将 eventData 转为 EventInfo
             EventInfo eventInfo = PlaybackHelper.convertEventInfo(eventData);
             if (eventInfo != null) {
                 eventInfoList.add(eventInfo);
@@ -115,6 +119,7 @@ public class PrismPlayback {
             return;
         }
 
+        //拿出一个 事件
         EventInfo eventInfo = mEventInfoList.get(mCurrentIndex);
         if (eventInfo.eventType == PrismConstants.Event.TOUCH) {
             if (eventInfo.eventData.containsKey(PrismConstants.Symbol.WEB_URL)) {

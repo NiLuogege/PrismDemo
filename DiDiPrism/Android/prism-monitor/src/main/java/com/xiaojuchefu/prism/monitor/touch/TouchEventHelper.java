@@ -48,7 +48,8 @@ public class TouchEventHelper {
         getWindowInfo(window, eventId);
 
 
-        //获取 被点击view在ViewTree上的路径信息, 注意：我们不记录每个view层级上的View Class名称或者index，只会记录关键层级(这里的关键层级就是值 有id 的层级)
+        //获取 被点击view在ViewTree上的路径信息, 注意：我们不记录每个view层级上的View Class名称或者index，
+        // 只会记录关键层级(这里的关键层级就是值 有id 的层级，基本准则就是 只要通过 vp 能找到对应 view就行)
         ViewPath viewPath = getViewPathInfo(touchView, touchRecord, eventId);
         if (viewPath.viewContainer != null) { // containerView
 
